@@ -1,7 +1,6 @@
 import boto3
 import streamlit as st
 import hmac
-import streamlit_scrollable_textbox as stx
 
 BUCKET_NAME = "epaluator-bucket-for-bedrock"
 s3_location = []
