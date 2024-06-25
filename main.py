@@ -69,6 +69,17 @@ if not check_password():
 
 st.set_page_config(layout="wide")
 
+st.markdown(
+    """
+    <style>
+    [data-testid="stChatMessageContent"] p{
+        font-size: 1.5rem;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
 col1, col2, col3 = st.columns([0.2, 0.6, 0.2])
 
 with col1:
