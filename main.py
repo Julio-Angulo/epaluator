@@ -5,6 +5,49 @@ import hmac
 BUCKET_NAME = "epaluator-bucket-for-bedrock"
 s3_location = []
 
+st.set_page_config(layout="wide")
+
+st.markdown(
+    """
+    <style>
+    [data-testid="stChatMessageContent"] p{
+        font-size: 1.5rem;
+    }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
+st.markdown(
+    """
+    <style>
+        [data-testid=stImage]{
+            text-align: center;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 100%;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
+st.markdown(
+    """
+    <style>
+        [data-testid=stForm]{
+            text-align: center;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+            width: 40%;
+        }
+    </style>
+    """,
+    unsafe_allow_html=True,
+)
+
 
 def create_presigned_url(bucket_name, object_name, expiration=3600):
     """Generate a presigned URL to share an S3 object
@@ -33,10 +76,23 @@ def check_password():
 
     def login_form():
         """Form with widgets to collect user information"""
+        st.image("./images/epa_banner.png", use_column_width="always")
+        st.image("./images/epa_xplorer.png")
+
         with st.form("Credentials"):
             st.text_input("Username", key="username")
             st.text_input("Password", type="password", key="password")
             st.form_submit_button("Log in", on_click=password_entered)
+
+        message = f"<h5 style='text-align: center; color: #4e95d9;'>I AM YOUR GUIDE TO ALL GHG EMISSIONS IN EPA AND OGMP!</h5>"
+        st.markdown(
+            message,
+            unsafe_allow_html=True,
+        )
+
+        st.write("#")
+        st.write("#")
+        st.image("./images/methane_iq.png")
 
     def password_entered():
         """Checks whether a password entered by the user is correct."""
@@ -66,23 +122,15 @@ def check_password():
 if not check_password():
     st.stop()
 
-st.set_page_config(layout="wide")
-
-st.markdown(
-    """
-    <style>
-    [data-testid="stChatMessageContent"] p{
-        font-size: 1.5rem;
-    }
-    </style>
-    """,
-    unsafe_allow_html=True,
-)
+st.image("./images/epa_banner.png", use_column_width="always")
 
 col1, col2, col3 = st.columns([0.2, 0.6, 0.2])
 
 with col1:
-    st.subheader(":gray[EPA Knowledge Base]", divider="green")
+    st.subheader(
+        ":blue[MY KNOWLEDGE BASE INCLUDES THE FOLLOWING DOCUMENTS FROM EPA & OGMP. I UPDATE MY INFORMATION REGULARLY:]",
+        divider="gray",
+    )
     container = st.container(border=True, height=800)
 
     with container:
@@ -107,10 +155,7 @@ with col1:
             st.write(element + "(%s)" % url)
 
 with col2:
-    st.markdown(
-        "<h1 style='text-align: center; color: black;'>EPA Xplorer</h1>",
-        unsafe_allow_html=True,
-    )
+    st.image("./images/epa_xplorer.png")
 
     # try out KB using RetrieveAndGenerate API
     bedrock_agent_runtime_client = boto3.client(
@@ -183,7 +228,10 @@ with col2:
 
 with col3:
 
-    st.subheader(":gray[Reference Documents]", divider="green")
+    st.subheader(
+        ":blue[BASED ON YOUR QUESTION, YOU MAY WANT TO LOOK AT THESE REFERENCES:]",
+        divider="gray",
+    )
     container = st.container(border=True)
 
     with container:
